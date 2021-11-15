@@ -27,12 +27,13 @@ namespace Ping_tester
             }
 
             DateTime now = DateTime.Now;
-            String dirName = $"{now.Year}-{now.DayOfYear}.{now.Hour}:{now.Minute}:{now.Second}";
+            String dirName = $"{now.Year}-{now.DayOfYear} ({now.Hour}:{now.Minute}{now.Second})";
             for (int i = 0; i < Threads; i++)
             {
-                target = AttackType == 0?target:generateIp();
+                Thread.Sleep(5);
                 new Thread(() =>
                 {
+                    target = AttackType == 0?target:generateIp(highestId);
                     pinger ping = new pinger(target, highestId++, dirName, AttackType == 1);
                 }).Start();
             }
@@ -58,9 +59,9 @@ namespace Ping_tester
             Info, Warning, Error, Success
         }
 
-        public static String generateIp()
+        public static String generateIp(int id)
         {
-            Random r = new Random();
+            Random r = new Random(Environment.TickCount + id);
             return $"{r.Next(255)}.{r.Next(255)}.{r.Next(255)}.{r.Next(255)}";
         }
         public static void PrintInfo(String message, messageType type)
@@ -102,13 +103,21 @@ namespace Ping_tester
         private Ping p = new Ping();
         public pinger(String ip, int id, String fileName, bool continueAfter)
         {
-            this.id = id;
-            this.fileName = fileName;
-            this.continueAfter = continueAfter;
-            p.PingCompleted += POnPingCompleted;
-            Program.PrintInfo($"Pinging {ip}...", Program.messageType.Info);
-            Thread.Sleep(2);
-            p.SendPingAsync(ip);
+            try
+            {
+                this.id = id;
+                this.fileName = fileName;
+                this.continueAfter = continueAfter;
+                p.PingCompleted += POnPingCompleted;
+                Program.PrintInfo($"Pinging {ip}...", Program.messageType.Info);
+                Thread.Sleep(2); 
+                p.SendPingAsync(ip);
+            }
+            catch (Exception e)
+            {
+                if (continueAfter) new pinger(Program.generateIp(id), id, fileName, true);
+            }
+            
         }
 
         public pinger(String ip, int id, String fileName, bool continueAfter, StreamWriter writer) : this(ip, id, fileName, continueAfter)
@@ -144,8 +153,6 @@ namespace Ping_tester
                             }
                         }
                     }
-
-                    if (continueAfter) new pinger(Program.generateIp(), Program.highestId++, fileName, true);
                     break;
                 case IPStatus.Unknown:
                     Program.PrintInfo($"Failed to ping {e.Reply.Address} for unknown reason.", Program.messageType.Error);
@@ -160,6 +167,8 @@ namespace Ping_tester
                     //Program.PrintInfo($"Failed to ping {e.Reply.Address} for other reason.", Program.messageType.Error);
                     break;
             }
+            
+            if (continueAfter) new pinger(Program.generateIp(id), Program.highestId++, fileName, true);
         }
     }
 }
