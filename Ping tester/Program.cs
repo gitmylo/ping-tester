@@ -27,7 +27,7 @@ namespace Ping_tester
             }
 
             DateTime now = DateTime.Now;
-            String dirName = $"{now.Year}-{now.DayOfYear} ({now.Hour}:{now.Minute}{now.Second})";
+            String dirName = $"{now.Year}-{now.DayOfYear} ({now.Hour}.{now.Minute}.{now.Second})";
             for (int i = 0; i < Threads; i++)
             {
                 Thread.Sleep(5);
