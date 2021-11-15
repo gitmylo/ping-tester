@@ -10,8 +10,10 @@ namespace Ping_tester
     internal class Program
     {
         public static int highestId = 0;
+        public static int logLevel = 0;
         public static void Main(string[] args)
         {
+            logLevel = askOption("What level of logs do you want?\n(0) All logs\n(1) No warnings\n(2) Only success");
             int AttackType = askOption("What type of attack?\n(0) Root From Single ip\n(1) Random ips");
             String target = "";
             int Threads;
@@ -66,6 +68,8 @@ namespace Ping_tester
         }
         public static void PrintInfo(String message, messageType type)
         {
+            if ((type == messageType.Warning || type == messageType.Info) && logLevel <= 1) return;
+            if (type == messageType.Error && logLevel <= 2) return;
             String messageGenned = "";
             switch (type)
             {
