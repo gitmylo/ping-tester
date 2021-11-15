@@ -36,6 +36,7 @@ namespace Ping_tester
                     pinger ping = new pinger(target, highestId++, dirName, AttackType == 1);
                 }).Start();
             }
+            Console.ReadLine();
         }
 
         public static int askOption(String question)
