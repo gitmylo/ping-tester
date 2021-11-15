@@ -1,0 +1,6 @@
+C:\Users\milan\RiderProjects\Ping tester\Ping tester\bin\Debug\Ping_tester.exe
+C:\Users\milan\RiderProjects\Ping tester\Ping tester\bin\Debug\Ping_tester.pdb
+C:\Users\milan\RiderProjects\Ping tester\Ping tester\obj\Debug\Ping tester.csproj.AssemblyReference.cache
+C:\Users\milan\RiderProjects\Ping tester\Ping tester\obj\Debug\Ping tester.csproj.CoreCompileInputs.cache
+C:\Users\milan\RiderProjects\Ping tester\Ping tester\obj\Debug\Ping_tester.exe
+C:\Users\milan\RiderProjects\Ping tester\Ping tester\obj\Debug\Ping_tester.pdb
