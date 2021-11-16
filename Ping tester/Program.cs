@@ -121,7 +121,7 @@ namespace Ping_tester
                 Threads = askOption("How many threads?");
             }
             
-            int timeMs = askOption("Timeout in milliseconds?");
+            int timeMs = askOption("Delay in milliseconds?");
             Console.Clear();
 
             DateTime now = DateTime.Now;
